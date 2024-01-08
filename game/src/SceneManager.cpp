@@ -8,16 +8,14 @@ void SceneManager::setScene(Scene* newScene) {
 	SceneManager::scene = newScene;
 }
 
-void SceneManager::switchScene(Scene* newScene, sf::RenderWindow& window) {
+void SceneManager::switchScene(Scene* newScene, sf::RenderWindow& window, float duration) {
 	if (SceneManager::scene->getId() == newScene->getId()) {
 		return;
 	}
-	// Transition duration
-	const float duration = 0.7f;
 
 	// Black screen
 	sf::RectangleShape rect;
-	rect.setSize(sf::Vector2f(600, 400));
+	rect.setSize(sf::Vector2f(float(WIDTH), float(HEIGHT)));
 
 	sf::Clock clock;
 	for (float elapsed = 0; elapsed < 1; elapsed = clock.getElapsedTime().asSeconds() / duration) {

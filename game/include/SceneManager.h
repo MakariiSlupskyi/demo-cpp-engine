@@ -9,7 +9,7 @@ public:
 	SceneManager() = delete;
 
 	static void setScene(Scene* newScene);
-	static void switchScene(Scene* newScene, sf::RenderWindow& window);
+	static void switchScene(Scene* newScene, sf::RenderWindow& window, float duration = 0.7f);
 
 	static void proceedScene(sf::RenderWindow& window);
 	static void renderScene(sf::RenderWindow& window);

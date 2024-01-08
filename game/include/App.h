@@ -11,7 +11,6 @@ public:
 	App() {
 		window.create(sf::VideoMode(WIDTH, HEIGHT), "Window", sf::Style::Close);
 		window.setFramerateLimit(FPS);
-		window.setVerticalSyncEnabled(true);
 	}
 
 	void run() {
@@ -20,6 +19,7 @@ public:
 		while (window.isOpen()) {
 			SceneManager::proceedScene(window);
 			SceneManager::renderScene(window);
+
 			window.display();
 		}
 	}

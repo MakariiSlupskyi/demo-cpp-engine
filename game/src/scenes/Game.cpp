@@ -12,6 +12,9 @@ void Game::proceed(sf::RenderWindow& window) {
 			SceneManager::switchScene(new Menu, window);
 		}
 	}
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+			SceneManager::switchScene(new Menu, window);
+		}
 }
 
 void Game::render(sf::RenderWindow& window) {

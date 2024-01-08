@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "Options.h"
+#include <string>
 
 class Menu : public Scene
 {
@@ -13,7 +14,6 @@ public:
 	int getId() const override { return 1; }
 
 private:
-	sf::CircleShape circle;
 	sf::Font font;
 	sf::Text text;
 };
