@@ -1,43 +1,51 @@
-#include "SceneManager.h"
+#include "graphics/SceneManager.h"
 #include "Options.h"
 
-Scene* SceneManager::scene = nullptr;
+std::stack<Scene*> SceneManager::scenes = {};
 
 void SceneManager::setScene(Scene* newScene) {
-	delete SceneManager::scene;
-	SceneManager::scene = newScene;
+	if (scenes.size() == 0) { return; }
+	delete scenes.top();
+	scenes.top() = newScene;
 }
 
-void SceneManager::switchScene(Scene* newScene, sf::RenderWindow& window, float duration) {
-	if (SceneManager::scene->getId() == newScene->getId()) {
-		return;
-	}
+void SceneManager::setScene(Scene* newScene, sf::RenderWindow& window, TransitionEffect* effect) {
+	if (scenes.size() == 0) { return; }
+	effect->proceed(scenes.top(), newScene, window);
+	delete scenes.top();
+	scenes.top() = newScene;
+}
 
-	// Black screen
-	sf::RectangleShape rect;
-	rect.setSize(sf::Vector2f(float(WIDTH), float(HEIGHT)));
-
-	sf::Clock clock;
-	for (float elapsed = 0; elapsed < 1; elapsed = clock.getElapsedTime().asSeconds() / duration) {
-		
-		if (elapsed < 0.5) {
-			rect.setFillColor(sf::Color(0, 0, 0, int(510 * elapsed)));
-			SceneManager::scene->render(window);
-		}
-		else {
-			rect.setFillColor(sf::Color(0, 0, 0, int(510 * (1 - elapsed))));
-			newScene->render(window);
-		}
-		window.draw(rect);
-		window.display();
+void SceneManager::addScene(Scene* newScene) {
+	if (scenes.size() > 0) {
+		if (getSceneId() == newScene->getId()) { return; }
 	}
-	SceneManager::setScene(newScene);
+	scenes.push(newScene);
+}
+
+void SceneManager::addScene(Scene* newScene, sf::RenderWindow& window, TransitionEffect* effect) {
+	if (scenes.size() > 0) {
+		if (getSceneId() == newScene->getId()) { return; }
+	}
+	effect->proceed(scenes.top(), newScene, window);
+	scenes.push(newScene);
+}
+
+void SceneManager::exitScene() {
+	if (scenes.size() == 1) { return; }
+	scenes.pop();
+}
+void SceneManager::exitScene(sf::RenderWindow& window, TransitionEffect* effect) {
+	if (scenes.size() == 1) { return; }
+	auto curScene = scenes.top();
+	scenes.pop();
+	effect->proceed(curScene, scenes.top(), window);
 }
 
 void SceneManager::proceedScene(sf::RenderWindow& window) {
-	SceneManager::scene->proceed(window);
+	scenes.top()->proceed(window);
 }
 
 void SceneManager::renderScene(sf::RenderWindow& window) {
-	SceneManager::scene->render(window);
+	scenes.top()->render(window);
 }

@@ -1,5 +1,6 @@
-#include "Scenes.h"
-#include "SceneManager.h"
+#include "graphics/Scenes.h"
+#include "graphics/SceneManager.h"
+#include "graphics/Effects.h"
 #include "Options.h"
 
 void Game::proceed(sf::RenderWindow& window) {
@@ -9,14 +10,14 @@ void Game::proceed(sf::RenderWindow& window) {
 			window.close();
 		}
 		if (e.type == sf::Event::MouseButtonPressed) {
-			SceneManager::switchScene(new Menu, window);
+			SceneManager::addScene(new OpeningCredits, window, new Effects::Transition::BlackScreen(0.4f));
 		}
 	}
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-			SceneManager::switchScene(new Menu, window);
-		}
+
+	player.move();
 }
 
 void Game::render(sf::RenderWindow& window) {
-	window.clear(colorScheme[2]);
+	window.clear(colorScheme[0]);
+	player.draw(window);
 }

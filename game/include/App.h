@@ -1,8 +1,8 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include "SceneManager.h"
-#include "Scenes.h"
+#include "graphics/SceneManager.h"
+#include "graphics/Scenes.h"
 #include "Options.h"
 
 class App
@@ -14,7 +14,7 @@ public:
 	}
 
 	void run() {
-		SceneManager::setScene(new Menu());
+		SceneManager::addScene(new MainScreen());
 
 		while (window.isOpen()) {
 			SceneManager::proceedScene(window);

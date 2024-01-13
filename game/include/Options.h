@@ -3,8 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 
-inline int WIDTH = 1280;
-inline int HEIGHT = 720;
+inline int WIDTH = 6 * 2 * 64;
+inline int HEIGHT = 4 * 2 * 64;
 inline int FPS = 60;
 
 const std::array<sf::Color, 4> colorScheme = {
